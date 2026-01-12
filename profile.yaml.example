@@ -1,0 +1,27 @@
+# Senioridade alvo (junior, pleno, senior, especialista)
+target_seniority:
+  - pleno
+  - senior
+
+# Tecnologias obrigatórias (se a vaga não mencionar, score cai)
+must_have:
+  - vue
+  - typescript
+
+# Tecnologias/palavras que você quer evitar (ex.: .NET, Java, ServiceNow)
+avoid:
+  - .net
+  - servicenow
+  - java
+
+# Score mínimo pra notificar (0-100)
+min_score_to_notify: 70
+
+# Idioma do prompt/resposta
+language: pt-BR
+
+# Notas extras (ex.: "aceito PJ/CLT", "evitar consultoria", "prefiro startups")
+notes: |
+  - Aceito PJ ou CLT
+  - Prefiro startups ou produto
+  - Evitar consultoria/body shop
