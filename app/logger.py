@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime
 
 class Logger:
-    def __init__(self, name=job_scout, log_dir="logs", level=logging.INFO):
+    def __init__(self, name="job_scout", log_dir="logs", level=logging.INFO):
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(exist_ok=True)
 
