@@ -17,3 +17,7 @@ resume.md
 # Banco de dados local
 data/*.db
 data/*.sqlite
+
+# Logs
+logs/
+*.log
