@@ -70,10 +70,10 @@ def main():
 
             try:
                 job_data = scraper.get_job_details(link)
-                logger.info(f"  Título: {job_data['title']}")
+                logger.info(f"Título: {job_data['title']}")
 
                 score_result = evaluator.evaluate(job_data, config.resume, config.profile)
-                logger.info(f"  Score: {score_result.score}/100 | Decisão: {score_result.decision}")
+                logger.info(f"Score: {score_result.score}/100 | Decisão: {score_result.decision}")
 
                 if score_result.score >= config.min_score and not args.dry_run:
                     notifier.notify_job(job_data, score_result)
