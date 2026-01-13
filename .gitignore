@@ -13,3 +13,7 @@ wheels/
 .env
 profile.yaml
 resume.md
+
+# Banco de dados local
+data/*.db
+data/*.sqlite

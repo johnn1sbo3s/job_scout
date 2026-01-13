@@ -3,6 +3,7 @@ import os
 import re
 import requests
 from dataclasses import dataclass, asdict
+from .logger import logger
 
 ROUTELLM_BASE_URL = "https://routellm.abacus.ai/v1"
 
@@ -52,6 +53,8 @@ class Evaluator:
         return json.loads(m.group(0))
 
     def evaluate(self, job_data, resume_text, profile, timeout_s=60):
+        logger.debug(f"Enviando requisição para LLM (modelo: {self.model})")
+
         language = profile.get("language", "pt-BR")
 
         system = (
@@ -110,16 +113,21 @@ class Evaluator:
             "Content-Type": "application/json",
         }
 
-        r = requests.post(
-            f"{self.base_url}/chat/completions",
-            headers=headers,
-            json=payload,
-            timeout=timeout_s,
-        )
-        r.raise_for_status()
+        try:
+            r = requests.post(
+                f"{self.base_url}/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=timeout_s,
+            )
+            r.raise_for_status()
 
-        data = r.json()
-        content = data["choices"][0]["message"]["content"]
-        result_dict = self._extract_json(content)
+            data = r.json()
+            content = data["choices"][0]["message"]["content"]
+            result_dict = self._extract_json(content)
+            logger.debug("Resposta recebida do LLM")
 
-        return EvalResult.from_dict(result_dict)
+            return EvalResult.from_dict(result_dict)
+        except Exception as e:
+            logger.exception(f"Erro ao avaliar vaga: {e}")
+            raise

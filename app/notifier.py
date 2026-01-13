@@ -1,5 +1,6 @@
 import telebot
 from .config import config
+from .logger import logger
 import re
 
 class Notifier:
@@ -55,7 +56,9 @@ class Notifier:
                 parse_mode='Markdown',
                 disable_web_page_preview=True
             )
+
+            logger.info(f"Notificação enviada para o chat {self.chat_id}")
             return True
         except Exception as e:
-            print(f"Erro ao enviar mensagem no Telegram: {e}")
+            logger.error(f"Falha ao enviar notificação: {e}")
             return False

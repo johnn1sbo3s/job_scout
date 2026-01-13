@@ -1,10 +1,12 @@
 import argparse
 from patchright.sync_api import sync_playwright
-from app import Storage, Scraper, config, Evaluator, Notifier
+from app import Storage, Scraper, config, Evaluator, Notifier, logger
 import json
 import time
 
 def main():
+    logger.info("=== Iniciando Job Scout ===")
+
     parser = argparse.ArgumentParser(description="Job Matcher - Meu Padrinho")
     parser.add_argument("--dry-run", action="store_true", help="Não notifica, só mostra resultados")
     parser.add_argument("--force", action="store_true", help="Reavalia vagas já vistas")
@@ -53,40 +55,42 @@ def main():
         context = browser.new_context(storage_state=storage_state)
 
         scraper = Scraper(context)
-
-        print("Buscando vagas...")
         links = scraper.get_job_links()
 
         if not links:
-            print("Nenhuma nova vaga encontrada.")
-            browser.close()
+            logger.warning("Nenhuma vaga encontrada nesta execução")
             return
 
         for link in links:
             if db.is_visited(link):
+                logger.debug(f"Pulando vaga já visitada: {link}")
                 continue
 
-            print(f"Analisando nova vaga: https://meupadrinho.com.br{link}")
-            job_data = scraper.get_job_details(link)
+            logger.info(f"Analisando vaga: https://meupadrinho.com.br{link}")
 
-            score_result = evaluator.evaluate(job_data, config.resume, config.profile)
+            try:
+                job_data = scraper.get_job_details(link)
+                logger.info(f"  Título: {job_data['title']}")
 
-            if score_result.score >= config.min_score:
-                if not args.dry_run:
-                    success = notifier.notify_job(job_data, score_result)
-                    if success:
-                        print(f"Notificação enviada!\n")
+                score_result = evaluator.evaluate(job_data, config.resume, config.profile)
+                logger.info(f"  Score: {score_result.score}/100 | Decisão: {score_result.decision}")
+
+                if score_result.score >= config.min_score and not args.dry_run:
+                    notifier.notify_job(job_data, score_result)
                 else:
-                    print(f"[DRY-RUN] Notificação seria enviada\n")
-            else:
-                print(f"Score abaixo do mínimo ({config.min_score})\n")
+                    logger.debug(f"Score abaixo do mínimo ({config.min_score})")
 
-            job_data["evaluation"] = score_result.to_dict()
-            db.save_job(job_data)
-            print(f"Vaga '{job_data['title']}' salva!")
+                job_data["evaluation"] = score_result.to_dict()
+                db.save_job(job_data)
+            except Exception as e:
+                logger.exception(f"Erro ao analisar vaga: {e}")
+
             time.sleep(10)
 
+        logger.info("Fechando navegador...")
         browser.close()
+
+        logger.info("=== Job Scout finalizado ===")
 
 if __name__ == "__main__":
     main()
