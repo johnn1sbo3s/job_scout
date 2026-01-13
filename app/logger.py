@@ -21,7 +21,7 @@ class Logger:
 
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setFormatter(formatter)
-        self.loger.addHandler(console_handler)
+        self.logger.addHandler(console_handler)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         log_file = self.log_dir / f"run_{timestamp}.log"
