@@ -43,10 +43,10 @@ class Storage:
             with sqlite3.connect(self.db_path) as conn:
                 cur = conn.execute("SELECT 1 FROM jobs WHERE link = ?", (link,))
                 result = cur.fetchone() is not None
-                logger.debug(f"Vaga {'já visitada' if result else 'nova'}: {link}")
+                logger.debug(f"Vaga {'já visitada' if result else 'nova'}: https://meupadrinho.com.br{link}")
                 return result
         except Exception:
-            logger.exception(f"Erro ao verificar se vaga foi visitada: {link}")
+            logger.exception(f"Erro ao verificar se vaga foi visitada: https://meupadrinho.com.br{link}")
             return False
 
     def save_job(self, job_data):

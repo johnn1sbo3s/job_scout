@@ -63,7 +63,6 @@ def main():
 
         for link in links:
             if db.is_visited(link):
-                logger.debug(f"Pulando vaga já visitada: {link}")
                 continue
 
             logger.info(f"Analisando vaga: https://meupadrinho.com.br{link}")
