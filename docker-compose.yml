@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  job-scout:
+    build: .
+    container_name: job_scout
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data        # Banco de dados (persiste se o container morrer)
+      - ./logs:/app/logs        # Logs (persiste se o container morrer)
+      # Se você quiser editar o currículo ou perfil sem dar build de novo:
+      - ./resume.md:/app/resume.md
+      - ./profile.yaml:/app/profile.yaml
+    environment:
+      - TZ=America/Sao_Paulo

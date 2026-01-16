@@ -1,0 +1,2 @@
+# Roda a cada 3 minutos carregando as variáveis de ambiente
+0 */6 * * * . /etc/environment; cd /app && /usr/local/bin/python -m app.main >> /var/log/cron.log 2>&1
