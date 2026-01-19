@@ -52,4 +52,18 @@ RUN chmod 0644 /etc/cron.d/job-scout-cron && \
     touch /var/log/cron.log
 
 # 8. Salva as variáveis de ambiente para o cron e inicia os serviços
-CMD printenv | grep -v "no_proxy" >> /etc/environment && cron && python -m app.main && tail -f /var/log/cron.log
+# Valor padrão (produção)
+ENV APP_ENV=prod
+
+# CMD condicional baseado em APP_ENV
+CMD sh -c '\
+  printenv | grep -v "no_proxy" >> /etc/environment; \
+  if [ "$APP_ENV" = "dev" ]; then \
+      echo "Rodando em modo DEV: mantendo container vivo"; \
+      tail -f /dev/null; \
+  else \
+      echo "Rodando em modo PROD: cron + main + tail do log"; \
+      cron && \
+      python -m app.main && \
+      tail -f /var/log/cron.log; \
+  fi'
