@@ -1,6 +1,6 @@
 import argparse
 from patchright.sync_api import sync_playwright
-from app import Storage, Scraper, config, Evaluator, Notifier, logger
+from app import Storage, Scraper, config, Evaluator, get_notifier, logger
 import json
 import time
 
@@ -13,17 +13,17 @@ def main():
     args = parser.parse_args()
 
     if not config.api_key:
-        print("Faltando API_KEY")
-        return
+      logger.error("Faltando API_KEY")
+      return
 
     if not config.resume:
-        print("Faltando currículo")
-        return
+      logger.error("Faltando currículo")
+      return
 
     # carrega config
     db = Storage(db_path=config.db_path)
     evaluator = Evaluator(api_key=config.api_key, model=config.model)
-    notifier = Notifier()
+    notifier = get_notifier()
 
     JOB_FILTERS = {
         "termoBusca": "",
