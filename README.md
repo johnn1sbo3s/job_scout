@@ -11,7 +11,7 @@ Siga os passos abaixo para configurar e executar o Job Scout em sua máquina.
 Primeiro, clone o repositório para a sua máquina local:
 
 ```bash
-git clone https://github.com/seu-usuario/job-scout.git # Substitua pelo link do seu repositório
+git clone https://github.com/seu-usuario/job-scout.git
 cd job-scout
 ```
 
