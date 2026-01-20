@@ -27,6 +27,23 @@ class ConsoleNotifier(BaseNotifier):
     return True
 
 class TelegramNotifier(BaseNotifier):
+  def __init__(self):
+    self.token = config.telegram_bot_token
+    self.chat_id = config.telegram_chat_id
+
+    if not self.token or not self.chat_id:
+      logger.error("TelegramNotifier criado sem token ou chat_id válidos!")
+      self.bot = None
+      return
+
+    try:
+      self.bot = telebot.TeleBot(self.token, parse_mode="Markdown")
+      logger.info(f"TelegramNotifier inicializado para chat_id={self.chat_id}")
+    except Exception as e:
+      logger.error(f"Erro ao inicializar bot do Telegram: {e}")
+      self.bot = None
+
+
   def notify_job(self, job_data, score_result):
     def escape_markdown(text):
       if not text:
