@@ -130,7 +130,9 @@ class Evaluator:
 			"instructions": [
 				"Calcule um score de 0 a 100 baseado no fit geral.",
 				"Se a vaga mencionar tecnologias do 'must_have', aumente o score.",
-				"Se mencionar tecnologias do 'avoid', reduza drasticamente o score.",
+				"Se a vaga mencionar várias tecnologias alternativas (ex: React, Vue ou Angular), considere que o candidato precisa dominar pelo menos uma delas para aumentar o score.",
+				"Não penalize o candidato por evitar tecnologias que são alternativas opcionais na vaga, desde que ele tenha experiência em pelo menos uma das tecnologias requeridas.",
+				"Se mencionar tecnologias do 'avoid', reduza drasticamente o score, exceto se forem alternativas opcionais e o candidato dominar outra tecnologia equivalente.",
 				"Se a senioridade não bater com 'target_seniority', reduza o score.",
 				"Se a descrição for vaga/incompleta, reduza a 'confidence'.",
 				"Decida 'apply' se score >= 70 e não tiver red flags, senão 'skip'.",
