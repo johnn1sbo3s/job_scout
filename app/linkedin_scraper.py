@@ -2,6 +2,7 @@ from .logger import logger
 from .config import config
 from urllib.parse import quote
 import time
+from datetime import datetime
 
 class LinkedinScraper:
 	def __init__(self, page, query):
@@ -31,6 +32,8 @@ class LinkedinScraper:
 				pass
 
 			time.sleep(2)
+			self.page.screenshot(path=f"screenshots/linkedin_login.png")
+
 			self.page.locator("button.btn__primary--large.from__button--floating").click()
 		except Exception as e:
 			logger.error(f"Erro ao fazer login no Linkedin: {e}")
@@ -39,12 +42,16 @@ class LinkedinScraper:
 		logger.debug("Fazendo busca no Linkedin...")
 		try:
 			self.page.goto(self._generate_search_url(self.query))
+			time.sleep(2)
+			self.page.screenshot(path=f"screenshots/linkedin_search.png")
 			self.page.wait_for_selector("div.search-results-container")
+			self.page.screenshot(path=f"screenshots/linkedin_search_results.png")
 			results_container = self.page.locator("div.search-results-container")
 
 			for _ in range(3):
 				self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
 				self.page.wait_for_timeout(2000)
+			self.page.screenshot(path=f"screenshots/linkedin_search_scroll.png")
 
 			job_posts = self.page.locator("div.feed-shared-update-v2")
 			job_posts_content = []
