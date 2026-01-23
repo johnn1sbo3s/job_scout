@@ -7,6 +7,8 @@ class Config:
 	def __init__(self):
 		load_dotenv()
 
+		self.environment = os.getenv("APP_ENV", "dev")
+
 		self.project_root = Path(__file__).resolve().parent.parent
 		self.db_path = os.getenv("DB_PATH", "data/jobs.db")
 

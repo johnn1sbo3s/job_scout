@@ -116,7 +116,9 @@ def main():
 		browser = p.chromium.launch()
 
 		run_meu_padrinho(browser)
-		run_linkedin(browser)
+
+		if config.environment == "dev":
+			run_linkedin(browser)
 
 		browser.close()
 
