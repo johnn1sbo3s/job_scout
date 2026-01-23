@@ -13,7 +13,7 @@ def run_linkedin(browser):
 	linkedin_posts = linkedin_scraper.get_job_posts()
 
 	for post in linkedin_posts:
-		if db.is_visited(post["link"], "linkedin"):
+		if db.is_visited(post["link"]):
 			continue
 
 		score_result = evaluator.evaluate_linkedin_post(post, config.resume, config.profile)
@@ -70,10 +70,10 @@ def run_meu_padrinho(browser):
 		return
 
 	for link in links:
-		if db.is_visited(link, "meu-padrinho"):
+		if db.is_visited(link):
 			continue
 
-		logger.info(f"Analisando vaga: https://meupadrinho.com.br{link}")
+		logger.info(f"Analisando vaga: {link}")
 
 		try:
 			job_data = scraper.get_job_details(link)
@@ -82,7 +82,7 @@ def run_meu_padrinho(browser):
 			score_result = evaluator.evaluate(job_data, config.resume, config.profile)
 			logger.info(f"Score: {score_result.score}/100 | Decisão: {score_result.decision}")
 
-			if score_result.score >= config.min_score and not args.dry_run:
+			if score_result.score >= config.min_score:
 				notifier.notify_job(job_data, score_result)
 			else:
 				logger.debug(f"Score abaixo do mínimo ({config.min_score})")

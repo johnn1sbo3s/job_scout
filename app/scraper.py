@@ -20,13 +20,13 @@ class Scraper:
         page.close()
 
         logger.info(f"Encontrados {len(links)} links de vagas")
-        return [l for l in links if l]
+        return [f"https://meupadrinho.com.br{l}" for l in links if l]
 
     def get_job_details(self, job_link):
-        logger.debug(f"Extraindo detalhes da vaga: https://meupadrinho.com.br{job_link}")
+        logger.debug(f"Extraindo detalhes da vaga: {job_link}")
 
         page = self.context.new_page()
-        page.goto(f"https://meupadrinho.com.br{job_link}", wait_until="domcontentloaded")
+        page.goto(job_link, wait_until="domcontentloaded")
 
         # Seletor do H1 que você encontrou
         h1_selector = "h1.text-2xl.md\\:text-3xl.font-serif.font-bold.mb-2.text-claude-dark"

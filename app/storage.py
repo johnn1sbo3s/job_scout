@@ -39,20 +39,15 @@ class Storage:
 			logger.exception("Erro ao inicializar banco de dados")
 			raise
 
-	def is_visited(self, link, source="meu-padrinho"):
-		final_link = link
-
-		if source == "meu-padrinho":
-			final_link = f"https://meupadrinho.com.br{link}"
-
+	def is_visited(self, link):
 		try:
 			with sqlite3.connect(self.db_path) as conn:
 				cur = conn.execute("SELECT 1 FROM jobs WHERE link = ?", (link,))
 				result = cur.fetchone() is not None
-				logger.debug(f"Vaga {'já visitada' if result else 'nova'}: {final_link}")
+				logger.debug(f"Vaga {'já visitada' if result else 'nova'}: {link}")
 				return result
 		except Exception:
-			logger.exception(f"Erro ao verificar se vaga foi visitada: {final_link}")
+			logger.exception(f"Erro ao verificar se vaga foi visitada: {link}")
 			return False
 
 	def save_job(self, job_data, source="meu-padrinho"):

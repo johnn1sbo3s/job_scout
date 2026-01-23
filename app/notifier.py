@@ -81,7 +81,7 @@ class TelegramNotifier(BaseNotifier):
       if notes:
         message += f"📝 {notes}\n\n"
 
-      mp_link = f"https://meupadrinho.com.br{job_data['link']}"
+      mp_link = job_data['link']
       apply_link = job_data.get("subscription_link", "")
       message += f"👉 [Candidate-se!]({apply_link})\n"
       message += f"🔎 [Veja a vaga no Meu Padrinho]({mp_link})\n"

@@ -13,7 +13,7 @@ class Config:
 		self.profile = self._load_yaml("profile.yaml")
 		self.resume = self._load_text("resume.md")
 
-		self.api_key = os.getenv("ROUTELLM_API_KEY") or os.getenv("ABACUS_API_KEY")
+		self.api_key = os.getenv("API_KEY") or os.getenv("OPENIA_API_KEY")
 		self.model = os.getenv("LLM_MODEL", "gpt-4o-mini")
 
 		self.telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN")

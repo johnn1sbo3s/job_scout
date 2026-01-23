@@ -5,7 +5,7 @@ import requests
 from dataclasses import dataclass, asdict
 from .logger import logger
 
-ROUTELLM_BASE_URL = "https://routellm.abacus.ai/v1"
+BASE_URL = "https://api.openai.com/v1"
 
 
 @dataclass
@@ -39,10 +39,10 @@ class EvalResult:
 
 
 class Evaluator:
-	def __init__(self, api_key, model="gpt-4o-mini"):
+	def __init__(self, api_key, model):
 		self.api_key = api_key
 		self.model = model
-		self.base_url = ROUTELLM_BASE_URL
+		self.base_url = BASE_URL
 
 	def _extract_json(self, text):
 		text = text.strip()
@@ -77,6 +77,10 @@ class Evaluator:
 				json=payload,
 				timeout=timeout_s,
 			)
+
+			if r.status_code != 200:
+				logger.error(f"Erro da API RouteLLM (Status {r.status_code}): {r.text}")
+
 			r.raise_for_status()
 
 			data = r.json()
@@ -85,8 +89,13 @@ class Evaluator:
 			logger.debug("Resposta recebida do LLM")
 
 			return EvalResult.from_dict(result_dict)
+
+		except requests.exceptions.HTTPError as http_err:
+			body = http_err.response.text
+			logger.error(f"Detalhes do erro HTTP: {body}")
+			raise
 		except Exception as e:
-			logger.exception(f"Erro ao avaliar vaga: {e}")
+			logger.exception(f"Erro genérico ao avaliar vaga: {e}")
 			raise
 
 	def evaluate(self, job_data, resume_text, profile, timeout_s=60):
