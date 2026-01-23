@@ -19,6 +19,9 @@ class Config:
 		self.telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
 		self.telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
 
+		self.linkedin_username = os.getenv("LINKEDIN_USERNAME")
+		self.linkedin_password = os.getenv("LINKEDIN_PASSWORD")
+
 	def _load_yaml(self, filename):
 		path = self.project_root / filename
 		if not path.exists():

@@ -4,5 +4,6 @@ from .config import config
 from .evaluator import Evaluator
 from .notifier import get_notifier
 from .logger import logger
+from .linkedin_scraper import LinkedinScraper
 
-__all__ = ["Storage", "Scraper", "config", "Evaluator", "get_notifier", "logger"]
+__all__ = ["Storage", "Scraper", "config", "Evaluator", "get_notifier", "logger", "LinkedinScraper"]
