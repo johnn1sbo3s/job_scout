@@ -4,12 +4,12 @@ from app import Storage, Scraper, config, Evaluator, get_notifier, logger, Linke
 import json
 import time
 
-def run_linkedin(browser):
+def run_linkedin(browser, query='("vue" OR "vue.js") AND (frontend OR front-end OR front end) AND vaga'):
 	context = browser.new_context(
 		viewport={'width': 1920, 'height': 1080}
 	)
 	logger.info("Iniciando busca no Linkedin...")
-	linkedin_scraper = LinkedinScraper(context.new_page(), '("vue" OR "vue.js") AND (frontend OR front-end) AND "vaga"')
+	linkedin_scraper = LinkedinScraper(context.new_page(), query)
 	linkedin_posts = linkedin_scraper.get_job_posts()
 
 	for post in linkedin_posts:
@@ -115,10 +115,13 @@ def main():
 	with sync_playwright() as p:
 		browser = p.chromium.launch()
 
-		run_meu_padrinho(browser)
+		# run_meu_padrinho(browser)
 
 		if config.environment == "dev":
 			run_linkedin(browser)
+			run_linkedin(browser, query='("vue" OR "vue.js") AND vaga')
+			run_linkedin(browser, query='("frontend" OR "front end" OR "front-end") AND vaga')
+			run_linkedin(browser, query='("vue" OR "vue.js") AND LATAM')
 
 		browser.close()
 
