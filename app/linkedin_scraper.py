@@ -63,7 +63,16 @@ class LinkedinScraper:
 
 					link = f"https://www.linkedin.com/feed/update/{urn}"
 
-					post_text = job_post.locator(".update-components-update-v2__commentary span.break-words span[dir='ltr']").first.inner_text()
+					text_locator = job_post.locator(".update-components-update-v2__commentary span.break-words span[dir='ltr']").first
+					if text_locator.count() == 0:
+						logger.debug(f"Post sem texto. Pulando: {link}")
+						continue
+
+					try:
+						post_text = text_locator.inner_text(timeout=5000)
+					except Exception as e:
+						logger.debug(f"Erro ao extrair texto do post {link}: {e}")
+						continue
 
 					post = {
 						"link": link,
