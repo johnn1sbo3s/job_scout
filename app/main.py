@@ -119,13 +119,12 @@ def main():
 
 		if config.environment == "dev":
 			queries = [
-				'("vue" OR "vue.js") AND vaga',
+				'("vue" OR "vue.js" OR vuejs) AND vaga',
 				'("frontend" OR "front end" OR "front-end") AND vaga',
-				'("vue" OR "vue.js") AND latam',
-				'("vue" OR "vue.js") AND ("brazil OR brasil" OR "brasileiro" OR "brasileira")',
-				'("vue" OR "vue.js") AND ("brazil OR brasil") AND (portugal)',
-				'("vue" OR "vue.js") AND ("brazil OR brasil")',
-				'("frontend" OR "front-end" OR "front end") AND ("brazil OR brasil")',
+				'("vue" OR "vue.js" OR vuejs) AND latam',
+				'(vue OR vue.js OR vuejs) AND "remote" AND brazil',
+				'(vue OR vue.js OR vuejs) AND "remote" AND latam',
+				'(vue OR vue.js OR vuejs) AND "remote"',
 			]
 			run_linkedin(browser, queries)
 
