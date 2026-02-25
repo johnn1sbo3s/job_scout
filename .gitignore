@@ -18,6 +18,9 @@ resume.md
 data/*.db
 data/*.sqlite
 
+# Screenshots
+screenshots/
+
 # Logs
 logs/
 *.log
