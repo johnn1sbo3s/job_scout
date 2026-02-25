@@ -165,7 +165,7 @@ class Evaluator:
 			f"- Vagas presenciais/híbridas quando o candidato quer remoto devem ter score <= 20 e decisão 'skip'"
 			f"- Vagas fullstack com backend indesejado devem ter score <= 25 e decisão 'skip'"
 			f"- Responda APENAS com JSON válido (sem markdown, sem explicações extras)."
-			f"Se o post não for sobre vaga disponível, responda 'skip' e explique na notas."
+			f"Se o post não for sobre vaga disponível, responda com JSON onde decision='skip', score=0, e explique em notes."
 		)
 
 		user_prompt = {
