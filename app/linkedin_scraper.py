@@ -38,13 +38,14 @@ class LinkedinScraper:
 
 		all_job_posts = []
 
-		for query in self.queries:
+		for i, query in enumerate(self.queries):
 			logger.info(f"Fazendo busca no Linkedin (query: {query})...")
 			time.sleep(5)
 			try:
 				complete_link = self._generate_search_url(query)
 				self.page.goto(complete_link)
 				self.page.wait_for_selector("div.search-results-container")
+				self.page.screenshot(path=f"data/screenshots/{i}_{query}.png")
 				results_container = self.page.locator("div.search-results-container")
 
 				for _ in range(3):
