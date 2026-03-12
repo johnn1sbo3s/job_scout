@@ -21,6 +21,8 @@ class LinkedinScraper:
 		logger.debug("Fazendo login no Linkedin...")
 		try:
 			self.page.goto("https://www.linkedin.com/login")
+			time.sleep(5)
+			self.page.screenshot(path="data/screenshots/linkedin_login.png")
 			self.page.wait_for_selector("input#username")
 			self.page.locator("#username").fill(self.username)
 			self.page.locator("#password").fill(self.password)
