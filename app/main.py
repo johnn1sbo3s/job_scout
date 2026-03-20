@@ -115,7 +115,7 @@ def main():
 	with sync_playwright() as p:
 		browser = p.chromium.launch()
 
-		# run_meu_padrinho(browser)
+		run_meu_padrinho(browser)
 
 		if config.environment == "dev":
 			queries = [
