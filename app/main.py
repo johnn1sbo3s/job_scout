@@ -40,7 +40,7 @@ def run_meu_padrinho(browser):
 	JOB_FILTERS = {
 		"termoBusca": "",
 		"cargos": ["frontend"],
-		"formasTrabalho": ["remoto"],
+		"formasTrabalho": [],
 		"niveis": [],
 		"plataformas": [],
 		"vagaEasyApply": False,
